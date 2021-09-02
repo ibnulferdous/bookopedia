@@ -24,7 +24,6 @@ const loadData = async (searchText) => {
         const data = await res.json()
         showData(data, searchText)
     } catch(error) {
-        console.log(error)
         infoDiv.innerHTML = `
             <p class="text-danger mb-0">${error}</p>
             <p class="text-danger">Please try again after sometime!</p>
@@ -43,7 +42,6 @@ const showData = (data, searchText) => {
 
         data.docs.forEach(bookObject => {
             generateCard(bookObject)
-            console.log(bookObject)
         })
     } else {
         infoDiv.innerHTML = `<p class="text-muted">Searched with <span class="fst-italic fw-bold">"${searchText}"</span> and no results found!</p>`
@@ -92,7 +90,7 @@ const generateCard = (bookObject) => {
 
     const firstPublishYear = document.createElement("p")
     firstPublishYear.classList.add("card-text", "mb-1")
-    
+
     if (bookObject.first_publish_year !== undefined) {
         firstPublishYear.innerHTML = `<span class="fw-bold">First published:</span> ${bookObject.first_publish_year}`
         cardBody.appendChild(firstPublishYear)
