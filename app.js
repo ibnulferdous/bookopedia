@@ -8,17 +8,20 @@ const showResultsDiv = document.getElementById("show-results-div")
 const spinnerToggle = displayProperty => {
     spinner.style.display = displayProperty
 }
-
+// Initial spinner condition
 spinnerToggle("none")
 
 // Load data from api
 const loadData = async (searchText) => {
     const url = `https://openlibrary.org/search.json?q=${searchText}`
+
+    // Spinner showing just before fetching
     spinnerToggle("block")
+
+    // trying to fetch data from API
     try {
         const res = await fetch(url)
         const data = await res.json()
-    
         showData(data, searchText)
     } catch(error) {
         console.log(error)
@@ -27,13 +30,13 @@ const loadData = async (searchText) => {
             <p class="text-danger">Please try again after sometime!</p>
         `
     }
+
+    // Spinner hiding when fetching completed
     spinnerToggle("none")
 }
 
 // Show data on front-end
 const showData = (data, searchText) => {
-    console.log(data)
-    console.log(data.docs)
 
     if(data.numFound > 0) {
         infoDiv.innerHTML = `<p class="text-muted">Searched with <span class="fst-italic fw-bold">"${searchText}"</span> and showing ${data.docs.length} among ${data.numFound} results</p>`
@@ -47,7 +50,7 @@ const showData = (data, searchText) => {
     }
 }
 
-// Generate single card for each result
+// Generate single card for each search result
 const generateCard = (bookObject) => {
     const col = document.createElement("div")
     col.classList.add("col")
@@ -89,6 +92,7 @@ const generateCard = (bookObject) => {
 
     const firstPublishYear = document.createElement("p")
     firstPublishYear.classList.add("card-text", "mb-1")
+    
     if (bookObject.first_publish_year !== undefined) {
         firstPublishYear.innerHTML = `<span class="fw-bold">First published:</span> ${bookObject.first_publish_year}`
         cardBody.appendChild(firstPublishYear)
